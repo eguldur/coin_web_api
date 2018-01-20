@@ -8,11 +8,13 @@ const http = require('http');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const bluebird = require('bluebird');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
 
-mongoose.connect('mongodb://localhost:27017/nodedemo')
+mongoose.Promise = bluebird;
+mongoose.connect('mongodb://erdnur:2009501029Ab@ds263367.mlab.com:63367/node-demo')
     .then(()=> { console.log(`Succesfully Connected to the Mongodb Database`)})
     .catch(()=> { console.log(`Error Connecting to the Mongodb Database`)});
 
