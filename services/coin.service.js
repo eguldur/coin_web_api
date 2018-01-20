@@ -4,8 +4,11 @@ _this = this;
 exports.getTodos = async function(query, page, limit){
     const options = {
         page,
-        limit
-    };
+        limit,
+        select: {name: 1, rank:1, "market_data": { $slice: -1 }  },
+        sort : { rank : 1}
+
+};
     try {
         const coins = await Coin.paginate(query, options);
         return coins;

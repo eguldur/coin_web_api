@@ -8,29 +8,23 @@ const http = require('http');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
 const index = require('./routes/index');
 const users = require('./routes/users');
 
-mongoose.connect('mongodb://163.172.107.247:27017/nodedemo')
+mongoose.connect('mongodb://erdnur:2009501029Ab@ds263367.mlab.com:63367/node-demo')
     .then(()=> { console.log(`Succesfully Connected to the Mongodb Database`)})
     .catch(()=> { console.log(`Error Connecting to the Mongodb Database`)});
-
-
 const app = express();
-
 const api = require('./routes/api');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     next();
 });
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -38,7 +32,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/api', api);
 
 app.use(function(req, res, next) {
@@ -113,5 +106,5 @@ setInterval(function (req, res) {
         .catch(error => {
             console.log(error);
         });
-}, 60000);
+}, 10000);
 module.exports = app;

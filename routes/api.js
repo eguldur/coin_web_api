@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-/* GET users listing. */
+const coins = require('./api/coins.route')
+
+router.use('/coins', coins);
+
 router.get('/', function(req, res, next) {
     res.send(`Succesfully Connected to the Mongodb Database`);
 
