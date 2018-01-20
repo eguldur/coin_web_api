@@ -5,8 +5,8 @@ exports.getTodos = async function(query, page, limit){
     const options = {
         page,
         limit,
-        select: {name: 1, rank:1, "market_data": { $slice: -1 }  },
-        sort : { rank : 1}
+        select: {market_data:0  },
+        sort : {  rank : 1}
 
 };
     try {

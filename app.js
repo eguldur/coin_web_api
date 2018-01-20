@@ -106,5 +106,5 @@ setInterval(function (req, res) {
         .catch(error => {
             console.log(error);
         });
-}, 10000);
+}, 60000);
 module.exports = app;
