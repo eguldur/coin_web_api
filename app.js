@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 const index = require('./routes/index');
 const users = require('./routes/users');
 
-mongoose.connect('mongodb://erdnur:2009501029Ab@ds263367.mlab.com:63367/node-demo')
+mongoose.connect('mongodb://localhost:27017/nodedemo')
     .then(()=> { console.log(`Succesfully Connected to the Mongodb Database`)})
     .catch(()=> { console.log(`Error Connecting to the Mongodb Database`)});
 const app = express();
@@ -109,5 +109,5 @@ setInterval(function (req, res) {
         .catch(error => {
             console.log(error);
         });
-}, 6000000);
+}, 300000);
 module.exports = app;

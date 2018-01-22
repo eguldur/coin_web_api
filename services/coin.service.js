@@ -43,7 +43,7 @@ exports.getTodo = async function(query, page, limit){
         const coins = await Coin.paginate(query, options);
         return coins;
     } catch (e) {
-        throw Error('Error while Paginating Todos')
+        throw Error('Error while Paginating Todos '+e)
     }
 }
 
