@@ -1,14 +1,44 @@
-const Coin = require('../models/coin.model')
+const Coin = require('../models/coin.model');
 _this = this;
 
 exports.getTodos = async function(query, page, limit){
     const options = {
         page,
         limit,
-        select: {market_data:0  },
+        select: { name: 1, symbol: 1, rank: 1, price_usd:1, "market_data": { $slice: -1 } },
         sort : {  rank : 1}
 
 };
+    try {
+        const coins = await Coin.paginate(query, options);
+        return coins;
+    } catch (e) {
+        throw Error('Error while Paginating Todos')
+    }
+}
+exports.getTodosList = async function(query, page, limit){
+    const options = {
+        page,
+        limit,
+        select: { name: 1, symbol: 1 },
+        sort : {  rank : 1}
+
+    };
+    try {
+        const coins = await Coin.paginate(query, options);
+        return coins;
+    } catch (e) {
+        throw Error('Error while Paginating Todos')
+    }
+}
+exports.getTodo = async function(query, page, limit){
+    const options = {
+        page,
+        limit,
+        select: { name: 1, symbol: 1,  price_usd:1, "market_data": { $slice: -1 } },
+        sort : {  rank : 1}
+
+    };
     try {
         const coins = await Coin.paginate(query, options);
         return coins;

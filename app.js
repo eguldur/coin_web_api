@@ -5,6 +5,7 @@ const Coin = require('./models/coin.model')
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const http = require('http');
+
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -52,6 +53,8 @@ app.use(function(err, req, res, next) {
 const port = process.env.PORT || '3000';
 const server = http.createServer(app);
 server.listen(port, () => console.log(`API running on localhost:${port}`));
+
+
 
 setInterval(function (req, res) {
     axios.get('https://api.coinmarketcap.com/v1/ticker/?start=0&limit=1500')
@@ -106,5 +109,5 @@ setInterval(function (req, res) {
         .catch(error => {
             console.log(error);
         });
-}, 60000);
+}, 6000000);
 module.exports = app;
