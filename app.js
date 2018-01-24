@@ -13,6 +13,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const index = require('./routes/index');
 
+
+//mongoose.connect('mongodb://erdnur:2009501029Ab@ds263367.mlab.com:63367/node-demo')
 mongoose.connect('mongodb://localhost:27017/nodedemo')
     .then(()=> { console.log(`Succesfully Connected to the Mongodb Database`)})
     .catch(()=> { console.log(`Error Connecting to the Mongodb Database`)});
@@ -70,40 +72,25 @@ setInterval(function (req, res) {
                     last_updated: item['last_updated'],
                     price_usd: item['price_usd'],
                     price_btc: item['price_btc'],
-                };
-                const marketData =  {
-                    a24h_volume_usd: item['24h_volume_usd'],
-                    market_cap_usd: item['market_cap_usd'],
-                    available_supply: item['available_supply'],
-                    total_supply: item['total_supply'],
-                    max_supply: item['max_supply'],
-                    percent_change_1h: item['percent_change_1h'],
-                    percent_change_24h: item['percent_change_24h'],
-                    percent_change_7d: item['percent_change_7d'],
-                    last_updated: item['last_updated'],
-                    price_usd: item['price_usd'],
-                    price_btc: item['price_btc'],
+                    market_data:  [{
+                        a24h_volume_usd: item['24h_volume_usd'],
+                        market_cap_usd: item['market_cap_usd'],
+                        available_supply: item['available_supply'],
+                        total_supply: item['total_supply'],
+                        max_supply: item['max_supply'],
+                        percent_change_1h: item['percent_change_1h'],
+                        percent_change_24h: item['percent_change_24h'],
+                        percent_change_7d: item['percent_change_7d'],
+                        last_updated: item['last_updated'],
+                        price_usd: item['price_usd'],
+                        price_btc: item['price_btc'],
+                    }]
 
                 };
                 Coin.findOneAndUpdate({
                     _id: item['id']
                 }, coin, { upsert: true }, function(err, res) {
-                    if(err) {
-                    } else {
-                        if (res) {
-                            if(res.last_updated < item['last_updated']) {
-                                Coin.findOneAndUpdate({
-                                    _id: res['_id']
-                                }, {$push: {market_data: marketData}}, {upsert: true}, function (err, res) {
-                                    if (err) {
-                                        console.log(err);
-                                    }
-                                });
-                            }
-                        } else if(err) {
-                            console.log(err);
-                        }
-                    }
+                    console.log(res);
                 });
             })
         })
@@ -130,10 +117,8 @@ setInterval(function (req, res) {
                 _id: globalData['last_updated']
             }, global, { upsert: true }, function(err, res) {
                 if(err) {
-                    console.log(err);
                 }
                 else if(res) {
-                    console.log(res);
                 }
             });
         })
@@ -156,10 +141,8 @@ setInterval(function (req, res) {
                 _id: realData['timestamp']
             }, realcur, { upsert: true }, function(err, res) {
                 if(err) {
-                    console.log(err);
                 }
                 else if(res) {
-                    console.log(res);
                 }
             });
         })
