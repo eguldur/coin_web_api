@@ -20,6 +20,23 @@ const coinShema = new mongoose.Schema({
         price_btc: Number,
         max_supply: Number,
         last_updated: Number
+    }],
+    social_data : [{
+        twitter: String,
+        facebook: String,
+        reddit: String,
+        bitcointalk: String,
+        chat: String,
+        board: String
+    }],
+    technical_data : [{
+        explorer: String,
+        code: String,
+        whitepaper: String,
+        mineable: Number,
+        coin_type: String,
+        web: String,
+        crypto_type: String
     }]
 });
 coinShema.plugin(mongoosePaginate);

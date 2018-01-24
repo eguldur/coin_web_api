@@ -35,7 +35,7 @@ exports.getTodo = async function(query, page, limit){
     const options = {
         page,
         limit,
-        select: { name: 1, symbol: 1,  price_usd:1, "market_data": { $slice: -1 } },
+        select: { name: 1, symbol: 1,  price_usd:1, "market_data": { $slice: -1 }, "social_data":{ $slice: -1 }, "technical_data":{ $slice: -1 }, },
         sort : {  rank : 1}
 
     };
