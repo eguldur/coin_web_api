@@ -1,7 +1,9 @@
 const express = require('express');
 const path = require('path');
 const axios = require('axios');
-const Coin = require('./models/coin.model')
+const Coin = require('./models/coin.model');
+const RealCur = require('./models/realCur.model');
+const Global = require('./models/global.model');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const http = require('http');
@@ -10,7 +12,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const index = require('./routes/index');
-const users = require('./routes/users');
 
 mongoose.connect('mongodb://localhost:27017/nodedemo')
     .then(()=> { console.log(`Succesfully Connected to the Mongodb Database`)})
@@ -110,4 +111,61 @@ setInterval(function (req, res) {
             console.log(error);
         });
 }, 300000);
+
+setInterval(function (req, res) {
+    axios.get('https://api.coinmarketcap.com/v1/global/')
+        .then(response => {
+            const globalData = response.data;
+            const global ={
+                _id:globalData['last_updated'],
+                total_market_cap_usd: globalData['total_market_cap_usd'],
+                total_24h_volume_usd: globalData['total_24h_volume_usd'],
+                bitcoin_percentage_of_market_cap: globalData['bitcoin_percentage_of_market_cap'],
+                active_currencies: globalData['active_currencies'],
+                active_assets: globalData['active_assets'],
+                active_markets: globalData['active_markets'],
+                last_updated:globalData['last_updated'],
+            };
+            Global.findOneAndUpdate({
+                _id: globalData['last_updated']
+            }, global, { upsert: true }, function(err, res) {
+                if(err) {
+                    console.log(err);
+                }
+                else if(res) {
+                    console.log(res);
+                }
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}, 300000);
+
+setInterval(function (req, res) {
+    axios.get('https://openexchangerates.org/api/latest.json?app_id=04b4b883f2974a8ba4529318c9a1883a')
+        .then(response => {
+            const realData = response.data;
+            const realcur ={
+                _id: realData['timestamp'],
+                timestamp: realData['timestamp'],
+                base: realData['base'],
+                rates: realData['rates']
+            };
+            RealCur.findOneAndUpdate({
+                _id: realData['timestamp']
+            }, realcur, { upsert: true }, function(err, res) {
+                if(err) {
+                    console.log(err);
+                }
+                else if(res) {
+                    console.log(res);
+                }
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}, 86400000);
+
 module.exports = app;
