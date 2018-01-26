@@ -17,7 +17,7 @@ router.post('/', CoinControleer.createTodo);
 router.put('/', CoinControleer.updateTodo);
 
 router.delete('/:id',CoinControleer.removeTodo);
-
+router.get('/search',CoinControleer.searchTodo);
 
 // Export the Router
 

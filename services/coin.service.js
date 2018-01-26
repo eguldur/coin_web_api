@@ -47,6 +47,23 @@ exports.getTodo = async function(query, page, limit){
     }
 }
 
+exports.search = async function(query, page, limit){
+    const options = {
+        page,
+        limit,
+        select: { name: 1, symbol: 1 },
+        sort : {  rank : 1}
+
+    };
+    try {
+        const coins = await Coin.paginate(query, options);
+        return coins;
+    } catch (e) {
+        throw Error('Error while Paginating Todos '+e)
+    }
+}
+
+
 exports.createTodo = async function(todo){
     const newTodo = new Coin({
         title: todo.title,

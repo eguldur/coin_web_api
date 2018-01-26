@@ -1,5 +1,8 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}
+div(class='m-list-search__results')
+    span(class='m-list-search__result-message m--hide')
+        <p>No record found</p>
+    each kw in posts
+        a(href='/coin-details/#{kw._id}', class='m-list-search__result-item')
+            span(class='m-list-search__result-item-icon', )
+                img(src='./assets/app/coins/32x32/#{kw._id}.png')
+            span(class='m-list-search__result-item-text' style='padding-left:10px')=kw.name
