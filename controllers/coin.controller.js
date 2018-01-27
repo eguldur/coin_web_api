@@ -128,10 +128,11 @@ exports.searchTodo = async function(req, res, next){
     const page = req.query.page ? +req.query.page : 1;
     const limit = req.query.limit ? +req.query.limit : 10;
     const id = req.query.query ? req.query.query : 'bitcoin';
+    const lang = req.query.lang ? req.query.lang : 'en';
 
     const coins = await CoinService.search({_id : {'$regex': id}}, page, limit);
     console.log(coins.docs[0]);
-    res.render('index', { title: 'Express',  posts: coins.docs });
+    res.render('index', { title: 'Express',  posts: coins.docs, lang: lang });
 
 }
 
